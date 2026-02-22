@@ -1,8 +1,13 @@
-"""Task Management System: 
+""" Task Management System: 
 
 This program is a command-line task management system designed for a small
 business environment. It allows an administrator to manage users and assign
-tasks, while regular users can view and update their own assigned tasks.""""
+tasks, while regular users can view and update their own assigned tasks.
+
+It has two classse: 
+
+1. FileManager - Handles all file input/output operations
+2. TaskManager - Handles task logic, user actions, and reporting """"
 
 =======================================
 
