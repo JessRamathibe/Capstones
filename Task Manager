@@ -1,0 +1,266 @@
+"""Task Management System: 
+
+This program is a command-line task management system designed for a small
+business environment. It allows an administrator to manage users and assign
+tasks, while regular users can view and update their own assigned tasks.""""
+
+=======================================
+
+import datetime
+import os
+
+
+DATE_FORMAT = "%d-%m-%Y"
+
+
+# ========== FILE MANAGEMENT ==========
+
+class FileManager:
+    """Handles reading and writing user and task files."""
+
+    USER_FILE = "user.txt"
+    TASK_FILE = "tasks.txt"
+
+    def load_users(self):
+        users = {}
+        if not os.path.exists(self.USER_FILE):
+            open(self.USER_FILE, "w").close()
+            return users
+
+        with open(self.USER_FILE, "r") as file:
+            for line in file:
+                if line.strip():
+                    username, password = map(str.strip, line.split(","))
+                    users[username] = password
+        return users
+
+    def save_user(self, username, password):
+        with open(self.USER_FILE, "a") as file:
+            file.write(f"{username}, {password}\n")
+
+    def load_tasks(self):
+        tasks = []
+        if not os.path.exists(self.TASK_FILE):
+            open(self.TASK_FILE, "w").close()
+            return tasks
+
+        with open(self.TASK_FILE, "r") as file:
+            for line in file:
+                if line.strip():
+                    tasks.append(line.strip().split(", "))
+        return tasks
+
+    def save_tasks(self, tasks):
+        with open(self.TASK_FILE, "w") as file:
+            for task in tasks:
+                file.write(", ".join(task) + "\n")
+
+
+# ========== TASK MANAGEMENT ==========
+
+class TaskManager:
+    """Handles all task-related functionality."""
+
+    def __init__(self, current_user):
+        self.current_user = current_user
+        self.file_manager = FileManager()
+        self.users = self.file_manager.load_users()
+
+    # ---------- Helpers ----------
+
+    def get_valid_date(self, prompt):
+        while True:
+            date_str = input(prompt)
+            try:
+                datetime.datetime.strptime(date_str, DATE_FORMAT)
+                return date_str
+            except ValueError:
+                print("Invalid format. Use dd-mm-yyyy.")
+
+    def is_overdue(self, due_date):
+        due = datetime.datetime.strptime(due_date, DATE_FORMAT).date()
+        return due < datetime.date.today()
+
+    # ---------- User Management ----------
+
+    def register_user(self):
+        if self.current_user != "admin":
+            print("Only admin can register users.\n")
+            return
+
+        while True:
+            username = input("New username: ").strip()
+            if username in self.users:
+                print("Username already exists.")
+                continue
+
+            password = input("Password: ")
+            confirm = input("Confirm password: ")
+
+            if password == confirm:
+                self.file_manager.save_user(username, password)
+                self.users = self.file_manager.load_users()
+                print("User registered successfully.\n")
+                break
+            else:
+                print("Passwords do not match.")
+
+    # ---------- Task Management ----------
+
+    def add_task(self):
+        username = input("Assign to user: ").strip()
+        if username not in self.users:
+            print("User does not exist.\n")
+            return
+
+        title = input("Task title: ")
+        description = input("Task description: ")
+        due_date = self.get_valid_date("Due date (dd-mm-yyyy): ")
+        assigned_date = datetime.date.today().strftime(DATE_FORMAT)
+
+        task = [username, title, description,
+                assigned_date, due_date, "No"]
+
+        with open(self.file_manager.TASK_FILE, "a") as file:
+            file.write(", ".join(task) + "\n")
+
+        print("Task added successfully.\n")
+
+    def view_all(self):
+        tasks = self.file_manager.load_tasks()
+        if not tasks:
+            print("No tasks available.\n")
+            return
+
+        for i, task in enumerate(tasks, 1):
+            print(f"\nTask {i}")
+            print("-" * 25)
+            print(f"Assigned to : {task[0]}")
+            print(f"Title       : {task[1]}")
+            print(f"Description : {task[2]}")
+            print(f"Assigned    : {task[3]}")
+            print(f"Due         : {task[4]}")
+            print(f"Completed   : {task[5]}")
+
+    def view_mine(self):
+        tasks = self.file_manager.load_tasks()
+        my_tasks = [(i, t) for i, t in enumerate(tasks)
+                    if t[0] == self.current_user]
+
+        if not my_tasks:
+            print("You have no tasks.\n")
+            return
+
+        for i, (_, task) in enumerate(my_tasks, 1):
+            print(f"{i}. {task[1]} (Due: {task[4]}) - {task[5]}")
+
+        try:
+            choice = int(input("Select task number (-1 to return): "))
+            if choice == -1:
+                return
+
+            index = my_tasks[choice - 1][0]
+            selected = tasks[index]
+
+            if selected[5].lower() == "yes":
+                print("Task already completed.")
+                return
+
+            action = input("Type 'complete' or 'edit': ").lower()
+
+            if action == "complete":
+                tasks[index][5] = "Yes"
+
+            elif action == "edit":
+                new_user = input("New username: ")
+                if new_user not in self.users:
+                    print("Invalid user.")
+                    return
+                new_due = self.get_valid_date("New due date: ")
+                tasks[index][0] = new_user
+                tasks[index][4] = new_due
+
+            self.file_manager.save_tasks(tasks)
+            print("Task updated.\n")
+
+        except (ValueError, IndexError):
+            print("Invalid selection.\n")
+
+    # ---------- Reports ----------
+
+    def generate_reports(self):
+        tasks = self.file_manager.load_tasks()
+        users = self.file_manager.load_users()
+
+        total = len(tasks)
+        completed = len([t for t in tasks if t[5].lower() == "yes"])
+        incomplete = total - completed
+        overdue = len([t for t in tasks
+                       if t[5].lower() == "no" and
+                       self.is_overdue(t[4])])
+
+        with open("task_overview.txt", "w") as f:
+            f.write(f"Total tasks: {total}\n")
+            f.write(f"Completed: {completed}\n")
+            f.write(f"Incomplete: {incomplete}\n")
+            f.write(f"Overdue: {overdue}\n")
+
+        print("Reports generated.\n")
+
+    # ---------- Menu ----------
+
+    def show_menu(self):
+        while True:
+            print("\nMenu:")
+            print("a  - Add task")
+            print("va - View all tasks")
+            print("vm - View my tasks")
+            if self.current_user == "admin":
+                print("r  - Register user")
+                print("gr - Generate reports")
+            print("e  - Exit")
+
+            choice = input("Choice: ").lower()
+
+            if choice == "a":
+                self.add_task()
+            elif choice == "va":
+                self.view_all()
+            elif choice == "vm":
+                self.view_mine()
+            elif choice == "r" and self.current_user == "admin":
+                self.register_user()
+            elif choice == "gr" and self.current_user == "admin":
+                self.generate_reports()
+            elif choice == "e":
+                print("Goodbye!")
+                break
+            else:
+                print("Invalid option.")
+
+
+# ========== LOGIN ==========
+
+def login():
+    file_manager = FileManager()
+    users = file_manager.load_users()
+
+    while True:
+        username = input("Username: ")
+        password = input("Password: ")
+
+        if username in users and users[username] == password:
+            print("Login successful.\n")
+            return username
+        else:
+            print("Invalid login.\n")
+
+
+def main():
+    user = login()
+    manager = TaskManager(user)
+    manager.show_menu()
+
+
+if __name__ == "__main__":
+    main()
