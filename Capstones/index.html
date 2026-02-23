@@ -1,53 +1,122 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Capstone Projects</title>
+    <title>Jessica Ramathibe | Data Analytics Capstone</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 20px auto; line-height: 1.6; padding: 0 20px; }
-        h1, h2 { color: #2c3e50; }
-        h2 { margin-top: 40px; }
-        iframe { border: 1px solid #ccc; border-radius: 5px; width: 100%; height: 800px; margin-top: 10px; }
-        p, ul { font-size: 16px; }
-        ul { padding-left: 20px; }
-        li { margin: 8px 0; }
-        a { color: #2980b9; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .section { margin-bottom: 60px; }
-    </style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+```
+    h1 {
+        color: #1a1a1a;
+    }
+
+    h2 {
+        margin-top: 40px;
+        color: #2c3e50;
+    }
+
+    .project {
+        background: white;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0,0,0,0.05);
+    }
+
+    a {
+        text-decoration: none;
+        color: #0066cc;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: #004999;
+    }
+
+    .footer {
+        margin-top: 60px;
+        font-size: 14px;
+        color: gray;
+    }
+</style>
+```
+
 </head>
+
 <body>
 
-    <h1>My Capstone Projects</h1>
-    <p>Explore my capstone projects in data analysis, sentiment analysis, and task management. Each project is embedded below or described with instructions for running locally.</p>
+```
+<h1>Jessica Ramathibe</h1>
+<p><strong>Data Analytics Capstone Project Portfolio</strong></p>
 
-    <!-- Automobile Notebook -->
-    <div class="section">
-        <h2>Automobile Data Exploration</h2>
-        <p>This notebook cleans and explores an automobile dataset, analyzing relationships between price, horsepower, engine size, and fuel efficiency.</p>
-        <iframe src="Automobile_Analysis.html"></iframe>
-    </div>
+<!-- AMAZON PROJECT -->
+<div class="project">
+    <h2>Amazon Reviews Sentiment Analysis</h2>
+    <p>
+        This project analyzes Amazon product reviews using natural language
+        processing techniques to determine sentiment patterns and customer satisfaction trends.
+    </p>
 
-    <!-- Amazon Reviews Notebook -->
-    <div class="section">
-        <h2>Amazon Product Reviews Sentiment Analysis</h2>
-        <p>This notebook performs sentiment analysis on Amazon product reviews, classifying them as Positive, Neutral, or Negative.</p>
-        <iframe src="Amazon_Reviews_Sentiment.html"></iframe>
-    </div>
+    <p>
+        <a href="Amazon_Reviews_Sentiment.html" target="_blank">
+            View Interactive Notebook (HTML)
+        </a>
+    </p>
 
-    <!-- Task Manager -->
-    <div class="section">
-        <h2>Command-Line Task Management System</h2>
-        <p>This Python program allows administrators to manage users and assign tasks, while regular users can view and update their own tasks.</p>
-        <ul>
-            <li>User management (add, remove, view users)</li>
-            <li>Task assignment and update</li>
-            <li>Reporting of tasks and user activity</li>
-            <li>File-based storage using <code>FileManager</code></li>
-        </ul>
-        <p><strong>Usage:</strong> Download <a href="Task_Manager.py">Task_Manager.py</a> and run locally:</p>
-        <pre>python Task_Manager.py</pre>
-    </div>
+    <p>
+        <a href="Amazon_Report.pdf" target="_blank">
+            Download Full Project Report (PDF)
+        </a>
+    </p>
+</div>
+
+<!-- AUTOMOBILE PROJECT -->
+<div class="project">
+    <h2>Automobile Data Analysis</h2>
+    <p>
+        This project explores automobile pricing data to identify relationships
+        between features, engine size, horsepower, and price using exploratory data analysis.
+    </p>
+
+    <p>
+        <a href="Automobile_Analysis.html" target="_blank">
+            View Interactive Notebook (HTML)
+        </a>
+    </p>
+
+    <p>
+        <a href="Automobile_Report.pdf" target="_blank">
+            Download Full Project Report (PDF)
+        </a>
+    </p>
+</div>
+
+<!-- TASK MANAGER PROJECT -->
+<div class="project">
+    <h2>Task Manager Application</h2>
+    <p>
+        A simple task management application designed to create, track, and manage tasks efficiently.
+        This project demonstrates core programming logic, data handling, and user interaction design.
+    </p>
+
+    <p>
+        <a href="Task_Manager.html" target="_blank">
+            View Project
+        </a>
+    </p>
+</div>
+
+<div class="footer">
+    © 2026 Jessica Ramathibe | Built with GitHub Pages
+</div>
+```
 
 </body>
 </html>
