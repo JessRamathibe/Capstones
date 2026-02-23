@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Capstone Projects</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 20px auto; line-height: 1.6; padding: 0 20px; }
+        h1, h2 { color: #2c3e50; }
+        h2 { margin-top: 40px; }
+        iframe { border: 1px solid #ccc; border-radius: 5px; width: 100%; height: 800px; margin-top: 10px; }
+        p, ul { font-size: 16px; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        a { color: #2980b9; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .section { margin-bottom: 60px; }
+    </style>
+</head>
+<body>
+
+    <h1>My Capstone Projects</h1>
+    <p>Explore my capstone projects in data analysis, sentiment analysis, and task management. Each project is embedded below or described with instructions for running locally.</p>
+
+    <!-- Automobile Notebook -->
+    <div class="section">
+        <h2>Automobile Data Exploration</h2>
+        <p>This notebook cleans and explores an automobile dataset, analyzing relationships between price, horsepower, engine size, and fuel efficiency.</p>
+        <iframe src="Automobile_Analysis.html"></iframe>
+    </div>
+
+    <!-- Amazon Reviews Notebook -->
+    <div class="section">
+        <h2>Amazon Product Reviews Sentiment Analysis</h2>
+        <p>This notebook performs sentiment analysis on Amazon product reviews, classifying them as Positive, Neutral, or Negative.</p>
+        <iframe src="Amazon_Reviews_Sentiment.html"></iframe>
+    </div>
+
+    <!-- Task Manager -->
+    <div class="section">
+        <h2>Command-Line Task Management System</h2>
+        <p>This Python program allows administrators to manage users and assign tasks, while regular users can view and update their own tasks.</p>
+        <ul>
+            <li>User management (add, remove, view users)</li>
+            <li>Task assignment and update</li>
+            <li>Reporting of tasks and user activity</li>
+            <li>File-based storage using <code>FileManager</code></li>
+        </ul>
+        <p><strong>Usage:</strong> Download <a href="Task_Manager.py">Task_Manager.py</a> and run locally:</p>
+        <pre>python Task_Manager.py</pre>
+    </div>
+
+</body>
+</html>
